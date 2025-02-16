@@ -98,9 +98,9 @@ char playGame(const string &initialState, const string& input, string& outputTra
     char X4 = 'L';
 
     X1 = initialState[0];
-    X2 = initialState[0];
-    X3 = initialState[0];
-    X4 = initialState[0]; 
+    X2 = initialState[1];
+    X3 = initialState[2];
+    X4 = initialState[3]; 
     
 
     outputTrail.push_back(X1);
