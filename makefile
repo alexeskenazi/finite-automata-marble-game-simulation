@@ -16,4 +16,4 @@ clean:
 	rm -f *.o eskenazi_p2
 
 run: clean eskenazi_p2
-	./eskenazi_p2
+	./eskenazi_p2 LLLL  0000
