@@ -70,6 +70,7 @@ vector<Test> tests = {
 };
 
 void runTests(){
+    bool passed = true;
     for(size_t i = 0; i < tests.size(); ++i){
         string outputTrail;
         playGame("LLLL", tests[i].input, outputTrail);
@@ -83,11 +84,18 @@ void runTests(){
 
 
         if(temp==outputTrail) {
-            cout << "Test passed " << i << " input: " << tests[i].input << endl;
+            cout << "Test  " << i << " passed input: " << tests[i].input << endl;
         } else {
-            cout << "Test FAILED " << i << " input: " << tests[i].input << endl;
+            cout << "Test  " << i << " FAILED input: " << tests[i].input << endl;
+            passed = false;
         }
     }
+    if(passed){
+        cout << "All tests passed" << endl;
+    } else {
+        cout << "Some tests failed" << endl;
+    }
+
 }
 
 
@@ -97,11 +105,12 @@ char playGame(const string &initialState, const string& input, string& outputTra
     char X3 = 'L';
     char X4 = 'L';
 
-    X1 = initialState[0];
-    X2 = initialState[1];
-    X3 = initialState[2];
-    X4 = initialState[3]; 
-    
+    if(initialState.size() == 4){
+        X1 = initialState[0];
+        X2 = initialState[1];
+        X3 = initialState[2];
+        X4 = initialState[3]; 
+    }
 
     outputTrail.push_back(X1);
     outputTrail.push_back(X2);
@@ -111,8 +120,8 @@ char playGame(const string &initialState, const string& input, string& outputTra
         outputTrail += "->";
     }
 
-    char* gate = nullptr;
-    char output;
+    char* gate = &X2;
+    char output = ' ';
     for(size_t i = 0; i < input.size(); ++i){
         // We get a character from the input string
         char read = input[i];
@@ -121,21 +130,17 @@ char playGame(const string &initialState, const string& input, string& outputTra
         // Depending on X1 we choose X2,X3, or X4
         if(X1 == 'L'){
             gate = &X2;
-            
         }
 
         if(X1 == 'C'){
             gate = &X3;
-            
         }
 
         if(X1 == 'R'){
             gate = &X4;
-            
         }
 
         //	Depending on the gate we determine the exit
-        
         if(gate == &X2 && X2 == 'L'){
             output = 'B';
         }
@@ -163,6 +168,8 @@ char playGame(const string &initialState, const string& input, string& outputTra
          // Update the state:
         // For X1 we follow the algo for 0 or 1
         // For the X2 to X4 we swap the value of the gate used
+        // X1 on 0 goes L->R->C->L
+        // X1 on 1 goes L->C->R->L
         if(read == '0'){
             if(X1 == 'L'){
                 X1 = 'R';
@@ -187,6 +194,7 @@ char playGame(const string &initialState, const string& input, string& outputTra
             }
         }
 
+        // X2, X3, X4 are always swapped
         if(*gate == 'L'){
             *gate = 'R';
         }
@@ -194,10 +202,12 @@ char playGame(const string &initialState, const string& input, string& outputTra
             *gate = 'L';
         }
 
+        // Keep track of the state history
         outputTrail.push_back(X1);
         outputTrail.push_back(X2);
         outputTrail.push_back(X3);
         outputTrail.push_back(X4);
+
         if(i != input.size()-1){
             outputTrail += "->";
         }
@@ -221,9 +231,37 @@ char playGame(const string &initialState, const string& input, string& outputTra
 
 int main(int argc, char* argv[]) {
 
-    if(argc < 3) {
+    if(argc == 2 && (string(argv[1]) == "test" || string(argv[1]) == "tests")) {
         cout << "Running tests" << endl;
         runTests();
+        return 0;
+    }
+
+    if(argc < 3) {
+        // output usage instructions
+        if (argc != 3) {
+            cout << "******************************************************" << endl;
+            cout << "* Marble game state machine" << endl;
+            cout << "******************************************************" << endl;
+            cout << "* " << endl;
+            cout << "* Usage 1: " << argv[0] << " <initial State> <input string>" << endl;
+            cout << "* Usage 2: " << argv[0] << " test" << endl;
+            cout << "* Examples:" << endl;
+            cout << "*    " << argv[0] << " CRLL 010111" << endl;
+            cout << "*    " << argv[0] << " test" << endl;
+            cout << "* " << endl;
+            cout << "* Notes:" << endl;
+            cout << "* - Intial State has 4 letters representing the gate state:" << endl;
+            cout << "* -- X1 can be L C R for Left Center Right" << endl;
+            cout << "* -- X2, X3, X4 can be L or R for Left or Right" << endl;
+            cout << "* - After a 0 hits X1 it switches L->R->C->L" << endl;
+            cout << "* - After a 1 hits X1 it switches L->C->R->L" << endl;
+            cout << "* - After a 0 or a 1 hits X2, X3, or X4 it switches L->R->L" << endl;
+            cout << "* " << endl;
+            cout << "******************************************************" << endl;
+            return 0;
+        }
+
         return 0;
     }
 
