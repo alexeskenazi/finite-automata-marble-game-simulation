@@ -1,4 +1,4 @@
-# Marble Machine Simulation
+# Finite Automata Marble Machine Simulation
 
 ## Overview  
 This project simulates a **marble machine game** where marbles are dropped down a chute and interact with a set of gates. Each gate toggles between states as marbles pass through, affecting the final exit chute. The game follows these rules:
