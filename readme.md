@@ -6,6 +6,8 @@ This project simulates a **marble machine game** where marbles are dropped down 
 - A marble is dropped down **chute A**.
 - Gates **X1, X2, X3, and X4** toggle when a marble passes through.
 - **X1** has three possible states: Left, Center, and Right.
+- After a 0 hits X1 it switches L->R->C->L
+- After a 1 hits X1 it switches L->C->R->L
 - **X2, X3, and X4** toggle between Left and Right.
 - The final exit chute determines the game outcome:
   - **Win:** Marble exits through **B or D**.
@@ -24,25 +26,30 @@ The simulation processes an input sequence of `0`s and `1`s to determine how the
 ## Compilation  
 Use `make` to build the project:
 
-```sh
+```
 make
 ```
 This will generate the executable file **`eskenazi_p2`**.
 
 To clean up compiled files:
-```sh
+```
 make clean
+```
+
+To build and run the tests:
+```
+make test
 ```
 
 ## Usage  
 Run the program with an initial gate configuration and an input sequence:
 
-```sh
+```
 ./eskenazi_p2 <initial_state> <input_string>
 ```
 
 ### Example Runs  
-```sh
+```
 ./eskenazi_p2 LLLL 0000
 ```
 Output:
@@ -50,7 +57,7 @@ Output:
 LLLL->RRLL->CRLR->LRRR->RLRR C
 ```
 
-```sh
+```
 ./eskenazi_p2 LLLL 1111
 ```
 Output:
@@ -59,7 +66,7 @@ LLLL->CRLL->RRRL->LRRR->CLRR C
 ```
 
 To run all predefined test cases:
-```sh
+```
 ./eskenazi_p2 test
 ```
 
@@ -67,7 +74,9 @@ To run all predefined test cases:
 - **Initial State:** Four characters representing the gate positions:
   - `X1`: `L` (Left), `C` (Center), `R` (Right)
   - `X2`, `X3`, `X4`: `L` (Left) or `R` (Right)
+  - Example: `LLLL`, `CRRR`
 - **Input String:** A sequence of `0`s and `1`s that simulates marbles being dropped.
+  - Example: `0000`, `010101010101111`
 
 ## Rules Recap
 - **X1 toggles based on input:**
