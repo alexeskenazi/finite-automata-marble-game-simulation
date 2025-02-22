@@ -20,7 +20,6 @@ The simulation processes an input sequence of `0`s and `1`s to determine how the
 ## Files
 - `eskenazi_p2.cpp` - The main C++ program implementing the marble simulation.
 - `makefile` - Defines build rules for compiling the program.
-- `cs373-programming assignment 2.pdf` - The assignment description with problem details.
 - `marble-machine.png` - A diagram of the marble machine.
 
 ## Compilation  
